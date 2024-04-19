@@ -7,9 +7,9 @@ pipeline {
         IMAGE_NAME = "jk-flask"
         IMAGE_TAG = "latest"
         DOCKERHUB_PASSWORD = "${DOCKERHUB_PASSWORD_PSW}"
-        // RENDER_API_TOKEN = credentials('RENDER_API_TOKEN')
-        // RENDER_SERVICE_ID = "srv-coghfp6v3ddc73edhplg"
-        // RENDER_DEPLOY_HOOK_URL_TP3 = credentials('RENDER_DEPLOY_HOOK_URL_TP3')
+        RENDER_API_TOKEN = credentials('RENDER_API_TOKEN')
+        RENDER_SERVICE_ID = "srv-coh6nsf79t8c73ftopo0"
+        RENDER_DEPLOY_HOOK_URL_FINAL3 = credentials('RENDER_DEPLOY_HOOK_URL_FINAL3')
     }
 
     triggers {
@@ -45,17 +45,17 @@ pipeline {
             }
         }
 
-        // stage('Trigger Deploy to Render') {
-        //     steps {
-        //         // Utilisez withCredentials pour accéder à l'URL du webhook de manière sécurisée
-        //         withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK_URL_TP3', variable: 'DEPLOY_HOOK_URL')]) {
-        //             script {
-        //                 // Envoi d'une requête POST au webhook de déploiement
-        //                 sh "curl -X POST ${DEPLOY_HOOK_URL}"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Trigger Deploy to Render') {
+            steps {
+                // Utilisez withCredentials pour accéder à l'URL du webhook de manière sécurisée
+                withCredentials([string(credentialsId: 'RENDER_DEPLOY_HOOK_URL_FINAL3', variable: 'DEPLOY_HOOK_URL')]) {
+                    script {
+                        // Envoi d'une requête POST au webhook de déploiement
+                        sh "curl -X POST ${DEPLOY_HOOK_URL}"
+                    }
+                }
+            }
+        }
 
     }
 
